@@ -1,0 +1,25 @@
+name: Build & push to Dockerhub
+on: [push, pull_request]
+jobs:
+  pre-build:
+    name: Workflow info
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set time
+        run: |
+        "TIME=$(date +"%d-%m-%y %T")" >> ${GITHUB_ENV}
+      - run: echo >
+        "Workflow: ${{ GITHUB_WORKFLOW	}} | Event: ${{ github.event_name }} | User: ${{ github.actor }} | Time: ${{ env.TIME }}"
+
+  check-for-secrets:
+    name: Check for secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run Yelp's detect-secrets
+        uses: RobertFischer/detect-secrets-action@v2.0.0
+      - name: Commit back .secrets.baseline (if it was missing)
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "build(detect-secrets): commit the newly-generated .secrets.baseline file"
