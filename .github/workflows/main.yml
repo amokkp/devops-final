@@ -9,7 +9,7 @@ jobs:
         run: |
           echo "TIME=$(date +"%d-%m-%y %T")" >> ${GITHUB_ENV}
       - run: |
-          echo "Workflow ${{ env.GITHUB_WORKFLOW }} | Event ${{ github.event_name }} | User ${{ github.actor }} | Time ${{ env.TIME }}"
+          echo "Workflow ${{ GITHUB_WORKFLOW }} | Event ${{ github.event_name }} | User ${{ github.actor }} | Time ${{ env.TIME }}"
 
   check-for-secrets:
     name: Check for secrets
