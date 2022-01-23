@@ -11,5 +11,5 @@ test('renders the App div', () => {
     </Provider>
   );
 
-  expect(container.firstChild).toHaveClass('App');
+  expect(container.firstChild).toHaveClass('ZXCCXZCZXp');
 });
