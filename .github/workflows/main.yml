@@ -7,9 +7,9 @@ jobs:
     steps:
       - name: Set time
         run: |
-        "TIME=$(date +"%d-%m-%y %T")" >> ${GITHUB_ENV}
-      - run: echo >
-        "Workflow: ${{ GITHUB_WORKFLOW	}} | Event: ${{ github.event_name }} | User: ${{ github.actor }} | Time: ${{ env.TIME }}"
+          "TIME=$(date +"%d-%m-%y %T")" >> ${GITHUB_ENV}
+      - run: >
+          echo "Workflow: ${{ GITHUB_WORKFLOW	}} | Event: ${{ github.event_name }} | User: ${{ github.actor }} | Time: ${{ env.TIME }}"
 
   check-for-secrets:
     name: Check for secrets
