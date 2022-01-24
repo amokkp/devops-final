@@ -1,115 +1,115 @@
 name: Build & push to Dockerhub
 on: [push, pull_request]
 jobs:
-#  pre-build:
-#    name: Workflow info
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Add TIME to env
-#        run: |
-#          echo "TIME=$(date +"%d-%m-%y %T")" >> ${GITHUB_ENV}
-#      - run: |
-#          echo "${{ github.workflow }} ${{ github.run_number }} | Trigger ${{ github.event_name }} | User ${{ github.actor }} | Time ${{ env.TIME }}"
+  pre-build:
+    name: Workflow info
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add TIME to env
+        run: |
+          echo "TIME=$(date +"%d-%m-%y %T")" >> ${GITHUB_ENV}
+      - run: |
+          echo "${{ github.workflow }} ${{ github.run_number }} | Trigger ${{ github.event_name }} | User ${{ github.actor }} | Time ${{ env.TIME }}"
 
-#  check-for-secrets:
-#    name: Check for secrets
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#      - name: Run Yelp's detect-secrets
-#        uses: RobertFischer/detect-secrets-action@v2.0.0
-#      - name: Commit back .secrets.baseline (if it was missing)
-#        uses: stefanzweifel/git-auto-commit-action@v4
-#        with:
-#          commit_message: "build: commit the newly-generated .secrets.baseline file"
+  check-for-secrets:
+    name: Check for secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run Yelp's detect-secrets
+        uses: RobertFischer/detect-secrets-action@v2.0.0
+      - name: Commit back .secrets.baseline (if it was missing)
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "build: commit the newly-generated .secrets.baseline file"
 
-#  lint-client:
-#    name: Lint client code
-#    needs: check-for-secrets
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#      - name: Setup NodeJS
-#        uses: actions/setup-node@v2
-#        with:
-#          node-version: 16.13
-#      - name: Install dependencies
-#        run: npm install
-#        working-directory: client
-#      - name: Running tests
-#        run: npm run lint
-#        working-directory: client
-#
-#  test-client:
-#    name: Unit test client code
-#    needs: check-for-secrets
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#      - name: Setup NodeJS
-#        uses: actions/setup-node@v2
-#        with:
-#          node-version: 16.13
-#      - name: Install dependencies
-#        run: npm install
-#        working-directory: client
-#      - name: Running tests
-#        run: npm run test
-#        working-directory: client
-#
-#  build-client:
-#    name: Build client code
-#    needs: check-for-secrets
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#      - name: Setup NodeJS
-#        uses: actions/setup-node@v2
-#        with:
-#          node-version: 16.13
-#      - name: Install dependencies
-#        run: npm install
-#        working-directory: client
-#      - name: Running tests
-#        run: npm run build
-#        working-directory: client
+  lint-client:
+    name: Lint client code
+    needs: check-for-secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.13
+      - name: Install dependencies
+        run: npm install
+        working-directory: client
+      - name: Running tests
+        run: npm run lint
+        working-directory: client
 
-#  sonarcloud:
-#    name: SonarCloud scan
-#    # needs: [lint-client, test-client, build-client]
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#        with:
-#          fetch-depth: 0
-#      - name: SonarCloud Scan
-#        uses: sonarsource/sonarcloud-github-action@master
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#
-#  snyk:
-#    name: Snyk scan
-#    # needs: [lint-client, test-client, build-client]
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@master
-#      - name: Run Snyk to check for vulnerabilities
-#        uses: snyk/actions/node@master
-#        env:
-#          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#        with:
-#          args:
-#            --all-projects
-#            --severity-threshold=critical
+  test-client:
+    name: Unit test client code
+    needs: check-for-secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.13
+      - name: Install dependencies
+        run: npm install
+        working-directory: client
+      - name: Running tests
+        run: npm run test
+        working-directory: client
+
+  build-client:
+    name: Build client code
+    needs: check-for-secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.13
+      - name: Install dependencies
+        run: npm install
+        working-directory: client
+      - name: Running tests
+        run: npm run build
+        working-directory: client
+
+  sonarcloud:
+    name: SonarCloud scan
+    needs: [lint-client, test-client, build-client]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  snyk:
+    name: Snyk scan
+    needs: [lint-client, test-client, build-client]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args:
+            --all-projects
+            --severity-threshold=critical
 
   docker:
     name: Build and push images to Docker Hub
-#    needs: [sonarcloud, snyk]
+    needs: [sonarcloud, snyk]
     runs-on: ubuntu-latest
     steps:
       - name: Add SHORT_SHA to env
@@ -134,11 +134,11 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/devops-final-client:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/devops-final-client:${{ env.SHORT_SHA }}
-#      - name: Build and push server
-#        uses: docker/build-push-action@v2
-#        with:
-#          context: ./server
-#          push: true
-#          tags: |
-#            ${{ secrets.DOCKERHUB_USERNAME }}/devops-final-server:latest
-#            ${{ secrets.DOCKERHUB_USERNAME }}/devops-final-server:${{ env.SHORT_SHA }}
+      - name: Build and push server
+        uses: docker/build-push-action@v2
+        with:
+          context: ./server
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/devops-final-server:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/devops-final-server:${{ env.SHORT_SHA }}

@@ -71,21 +71,28 @@ export function MusicLibraryPage() {
         }
     }, [player, playlists])
 
+    const seekTo = useCallback((time, force = false) => {
+        if (!player) return
+        player.seekTo(time, force)
+        setTime(time)
+    }, [player])
+
     const onSeekChange = useCallback(
         e => {
             const seekTime = e.target.valueAsNumber
-            setTime(seekTime)
-            player && player.seekTo(seekTime, true)
+            seekTo(seekTime, true)
         },
-        [player]
+        [seekTo]
     )
 
     const onPlay = useCallback(() => {
-        player && player.playVideo() && player.seekTo(0, true)
-        setTime(0)
-    }, [player])
+        player?.playVideo()
+        seekTo(0, true)
+    }, [player, seekTo])
 
-    const onStop = useCallback(() => player && player.stopVideo(), [player])
+    const onStop = useCallback(() => {
+        player.stopVideo()
+    }, [player])
 
     const onPause = useCallback(() => {
         if (
@@ -96,38 +103,38 @@ export function MusicLibraryPage() {
                 PLAYER_STATE.CUED,
             ].includes(playerState)
         ) {
-            playerState !== PLAYER_STATE.PAUSED && player.seekTo(0, true)
+            playerState !== PLAYER_STATE.PAUSED && seekTo(0, true)
             player.playVideo()
         } else {
             player.pauseVideo()
         }
-    }, [player, playerState])
+    }, [player, playerState, seekTo])
 
     const onPrev = useCallback(() => {
         if (player) {
             player.previousVideo()
-            player.seekTo(0, false)
+            seekTo(0)
             ![PLAYER_STATE.PAUSED, PLAYER_STATE.PLAYING].includes(playerState) &&
             player.stopVideo()
         }
-    }, [player, playerState])
+    }, [player, playerState, seekTo])
 
     const onNext = useCallback(() => {
         if (player) {
             player.nextVideo()
-            player.seekTo(0, false)
+            seekTo(0)
             ![PLAYER_STATE.PAUSED, PLAYER_STATE.PLAYING].includes(playerState) &&
             player.stopVideo()
         }
-    }, [player, playerState])
+    }, [player, playerState, seekTo])
 
     const onCuePlaylist = useCallback((playlist) => {
         if (player) {
             player.cuePlaylist(playlist)
             player.stopVideo()
-            player.seekTo(0, true)
+            seekTo(0, true)
         }
-    }, [player])
+    }, [player, seekTo])
 
     return (
         isLoading ? <Loader /> : <div className="music-library">
@@ -176,7 +183,6 @@ export function MusicLibraryPage() {
                 <input
                     type="range"
                     min="0"
-                    disabled={duration === 0}
                     max={duration}
                     value={time}
                     onChange={onSeekChange}
