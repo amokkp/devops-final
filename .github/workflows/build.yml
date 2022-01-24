@@ -111,7 +111,7 @@ jobs:
   #
   docker:
     name: Build and push images to Docker Hub
-    needs: [sonarcloud, snyk]
+#    needs: [sonarcloud, snyk]
     runs-on: ubuntu-latest
     env:
       CLIENT_DOCKER_IMAGE: devops-final-client
