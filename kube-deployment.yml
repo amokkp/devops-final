@@ -10,7 +10,7 @@ spec:
       targetPort: 3002
   selector:
     app: server
-  type: LoadBalancer
+  clusterIP: None
 ---
 apiVersion: apps/v1
 kind: Deployment
