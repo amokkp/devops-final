@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: server
+  labels:
+    app: server
+spec:
+  ports:
+    - port: 3002
+      targetPort: 3002
+  selector:
+    app: server
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+  labels:
+    app: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+      - name: server
+        image: amokkp/devops-final-server:latest
+        ports:
+        - containerPort: 3002
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client
+  labels:
+    app: client
+spec:
+  ports:
+    - port: 3001
+      targetPort: 3001
+  selector:
+    app: client
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+  labels:
+    app: client
+spec:
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+      - name: client
+        image: amokkp/devops-final-client:latest
+        ports:
+        - containerPort: 3001

@@ -22,7 +22,7 @@ jobs:
 #      - name: Commit back .secrets.baseline (if it was missing)
 #        uses: stefanzweifel/git-auto-commit-action@v4
 #        with:
-#          commit_message: "build(detect-secrets): commit the newly-generated .secrets.baseline file"
+#          commit_message: "build: commit the newly-generated .secrets.baseline file"
 
 #  lint-client:
 #    name: Lint client code
