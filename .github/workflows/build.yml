@@ -154,6 +154,10 @@ jobs:
 #    needs: docker
     runs-on: ubuntu-latest
     steps:
+      - uses: Azure/docker-login@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 #      - name: Scan client for vulnerabilities
 #        uses: azure/container-scan@v0
 #        with:
