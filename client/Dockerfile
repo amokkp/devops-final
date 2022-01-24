@@ -4,9 +4,8 @@ WORKDIR /app
 
 COPY ./package*.json ./
 RUN npm ci
-COPY src src/
-RUN npm run build
 COPY . .
+RUN npm run build
 
 EXPOSE 3001
 ENTRYPOINT ["npm", "run", "serve"]
