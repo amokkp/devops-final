@@ -145,10 +145,10 @@ jobs:
           context: ./server
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ SERVER_DOCKER_IMAGE }}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ SERVER_DOCKER_IMAGE }}:${{ env.SHORT_SHA }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.SERVER_DOCKER_IMAGE }}:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.SERVER_DOCKER_IMAGE }}:${{ env.SHORT_SHA }}
       - name: Scan image for vulnerabilities
         uses: azure/container-scan@v0
         with:
           image-name: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ SERVER_DOCKER_IMAGE }}:${{ env.SHORT_SHA }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.SERVER_DOCKER_IMAGE }}:${{ env.SHORT_SHA }}
