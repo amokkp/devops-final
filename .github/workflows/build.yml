@@ -171,4 +171,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           severity-threshold: CRITICAL
           image-name: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.SERVER_DOCKER_IMAGE }}:${{ env.SHORT_SHA }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.SERVER_DOCKER_IMAGE }}
