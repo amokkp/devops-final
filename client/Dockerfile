@@ -6,7 +6,7 @@ COPY ./package*.json ./
 RUN npm install
 COPY ./src ./
 RUN npm run build
-COPY ./server.js .
+COPY . .
 
 EXPOSE 3001
 ENTRYPOINT ["npm", "run", "serve"]
