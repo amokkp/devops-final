@@ -9,7 +9,7 @@ const port = 3001
 
 
 app.use('/api', createProxyMiddleware({
-    target: 'http://localhost:3002', changeOrigin: true, headers: {
+    target: 'http://server:3002', changeOrigin: true, headers: {
         'Connection': 'keep-alive'
     }
 }));
