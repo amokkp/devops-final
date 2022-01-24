@@ -151,7 +151,7 @@ jobs:
 
   docker-scan:
     name: Scan Docker images
-    needs: docker
+#    needs: docker
     runs-on: ubuntu-latest
     steps:
       - name: Scan client for vulnerabilities
