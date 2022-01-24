@@ -153,13 +153,16 @@ jobs:
     name: Scan Docker images
     needs: docker
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        image: [ "${{ env.CLIENT_DOCKER_IMAGE }}",  "${{ env.SERVER_DOCKER_IMAGE }}"]
     steps:
-      - name: Scan ${{ matrix.node }} for vulnerabilities
+      - name: Scan client for vulnerabilities
         uses: azure/container-scan@v0
         with:
           severity-threshold: CRITICAL
           image-name: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.image }}:${{ env.SHORT_SHA }}
+      - name: Scan server for vulnerabilities
+        uses: azure/container-scan@v0
+        with:
+          severity-threshold: CRITICAL
+          image-name: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.SERVER_DOCKER_IMAGE }}:${{ env.SHORT_SHA }}
