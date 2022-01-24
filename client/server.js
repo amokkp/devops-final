@@ -7,9 +7,10 @@ const DIST_DIR = path.join(__dirname, 'build')
 const app = express()
 const port = 3001
 
+const serverHost = process.env.SERVER_HOST || 'localhost'
 
 app.use('/api', createProxyMiddleware({
-    target: 'http://server:3002', changeOrigin: true, headers: {
+    target: `http://${serverHost}:3002`, changeOrigin: true, headers: {
         'Connection': 'keep-alive'
     }
 }));
