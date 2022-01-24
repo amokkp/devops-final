@@ -57,5 +57,23 @@ jobs:
         run: npm install
         working-directory: client
       - name: Running tests
-        run: npm test
+        run: npm run test
+        working-directory: client
+
+  build-client:
+    name: Build client code
+    needs: check-for-secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.13
+      - name: Install dependencies
+        run: npm install
+        working-directory: client
+      - name: Running tests
+        run: npm run build
         working-directory: client

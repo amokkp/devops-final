@@ -3,7 +3,7 @@ import './App.css';
 import { MusicLibraryPage } from "./components/MusicLibrary";
 
 function App() {
-  return ///??(
+  return (
     <div className="App">
       <MusicLibraryPage />
     </div>
