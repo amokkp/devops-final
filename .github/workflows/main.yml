@@ -24,63 +24,63 @@ jobs:
         with:
           commit_message: "build(detect-secrets): commit the newly-generated .secrets.baseline file"
 
-  lint-client:
-    name: Lint client code
-    needs: check-for-secrets
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup NodeJS
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.13
-      - name: Install dependencies
-        run: npm install
-        working-directory: client
-      - name: Running tests
-        run: npm run lint
-        working-directory: client
-
-  test-client:
-    name: Unit test client code
-    needs: check-for-secrets
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup NodeJS
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.13
-      - name: Install dependencies
-        run: npm install
-        working-directory: client
-      - name: Running tests
-        run: npm run test
-        working-directory: client
-
-  build-client:
-    name: Build client code
-    needs: check-for-secrets
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup NodeJS
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.13
-      - name: Install dependencies
-        run: npm install
-        working-directory: client
-      - name: Running tests
-        run: npm run build
-        working-directory: client
+#  lint-client:
+#    name: Lint client code
+#    needs: check-for-secrets
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: Setup NodeJS
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: 16.13
+#      - name: Install dependencies
+#        run: npm install
+#        working-directory: client
+#      - name: Running tests
+#        run: npm run lint
+#        working-directory: client
+#
+#  test-client:
+#    name: Unit test client code
+#    needs: check-for-secrets
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: Setup NodeJS
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: 16.13
+#      - name: Install dependencies
+#        run: npm install
+#        working-directory: client
+#      - name: Running tests
+#        run: npm run test
+#        working-directory: client
+#
+#  build-client:
+#    name: Build client code
+#    needs: check-for-secrets
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: Setup NodeJS
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: 16.13
+#      - name: Install dependencies
+#        run: npm install
+#        working-directory: client
+#      - name: Running tests
+#        run: npm run build
+#        working-directory: client
 
   sonarcloud:
     name: SonarCloud scan
-    needs: [lint-client, test-client, build-client]
+    # needs: [lint-client, test-client, build-client]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
