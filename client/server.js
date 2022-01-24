@@ -9,6 +9,8 @@ const port = 3001
 
 const serverHost = process.env.SERVER_HOST || 'localhost'
 
+console.warn(process.env, process.env.SERVER_HOST)
+
 app.use('/api', createProxyMiddleware({
     target: `http://${serverHost}:3002`, changeOrigin: true, headers: {
         'Connection': 'keep-alive'
