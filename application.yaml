@@ -2,6 +2,8 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: jukebox
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.gmail: argocdtest68a90dd@gmail.com
 spec:
   destination:
     namespace: jukebox
